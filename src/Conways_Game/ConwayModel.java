@@ -12,8 +12,6 @@ public class ConwayModel {
 	private int survive_upper;
 	private int birth_lower;
 	private int birth_upper;
-	private Date date;
-	private long time;
 	private String message;
 	
 	private List<ConwayObserver> observers;
@@ -25,7 +23,6 @@ public class ConwayModel {
 		survive_upper = 3;
 		birth_lower = 3;
 		birth_upper = 3;
-		date = new Date();
 		message = "Welcome to Conway's Game of Life!";
 		observers = new ArrayList<ConwayObserver>();
 	}
@@ -37,7 +34,6 @@ public class ConwayModel {
 		survive_upper = 3;
 		birth_lower = 3;
 		birth_upper = 3;
-		date = new Date();
 		message = "reset";
 		notifyObservers();
 	}
@@ -80,10 +76,6 @@ public class ConwayModel {
 
 	private int getBirth_upper() {
 		return birth_upper;
-	}
-
-	public long getTime() {
-		return time;
 	}
 
 	public void setTorus() {
@@ -140,10 +132,6 @@ public class ConwayModel {
 		message = "The Upper Birth limit is now " + birth_upper;
 		
 		notifyObservers();
-	}
-
-	public void setTime() {;
-		time = date.getTime();
 	}
 	
 	public void lifeCycle(JSpotBoard board) {
@@ -206,7 +194,6 @@ public class ConwayModel {
 		else {
 			for (int i = 0; i < board.getSpotWidth();i++) {
 				for (int j = 0; j < board.getSpotHeight();j++) {
-					System.out.println("s");
 					int around = 0; //track number of lives squares surrounding it
 					int tempX = 0;
 					int tempY = 0;

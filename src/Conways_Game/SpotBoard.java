@@ -1,4 +1,4 @@
-package a7;
+package Conways_Game;
 
 
 import java.util.Iterator;

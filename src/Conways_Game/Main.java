@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public Main() {
 		ConwayModel model = new ConwayModel();
 		ConwayView view = new ConwayView();
 		ConwayController controller = new ConwayController(model,view);

@@ -21,13 +21,14 @@ import javax.swing.event.ChangeListener;
 public class ConwayView extends JPanel implements ActionListener, SpotListener, ChangeListener {
 	
 	private JScrollPane scroll_pane;
-	private JPanel sub_panel;
+	private JPanel sub_panel; //holds button panel and scroll pane;
 	private JTextArea tape;
 	private JSpotBoard board;
 	private JPanel button_panel;
 	private List<ConwayViewListener> listeners;
 	private JSlider scrollWidth;
 	private JSlider scrollHeight;
+	private JSlider scrollIteration;
 	
 	public ConwayView() {
 		setLayout(new BorderLayout());
@@ -65,20 +66,21 @@ public class ConwayView extends JPanel implements ActionListener, SpotListener, 
 		button_panel.add(new JButton("Decrease Lower Survive"));
 		button_panel.add(new JButton("Decrease Upper Survive"));
 		button_panel.add(new JButton("Decrease Lower Birth"));
-		button_panel.add(new JButton("Increase Upper Survive"));
-		button_panel.add(new JButton("Decrease Iteration time"));
+		button_panel.add(new JButton("Decrease Upper Birth"));
+		//button_panel.add(new JButton("Decrease Iteration time"));
 		
 		sub_panel.add(button_panel,BorderLayout.CENTER);
 		
 		JPanel scrollPanel = new JPanel();
-		JPanel scrollNorth = new JPanel();
-		JPanel scrollSouth = new JPanel();
+		JPanel scrollWest = new JPanel();
+		JPanel scrollCenter = new JPanel();
+		JPanel scrollEast = new JPanel();
 		
 		//create scroller for width
 		JLabel scrollWidthLabel = new JLabel();
 		scrollWidthLabel.setText("Width");
 		
-		scrollNorth.add(scrollWidthLabel,BorderLayout.NORTH);
+		scrollWest.add(scrollWidthLabel,BorderLayout.NORTH);
 		
 		scrollWidth = new JSlider(JSlider.HORIZONTAL,10,500,50);
 		scrollWidth.setMajorTickSpacing(100);
@@ -88,13 +90,13 @@ public class ConwayView extends JPanel implements ActionListener, SpotListener, 
 		scrollWidth.setSnapToTicks(true);
 		scrollWidth.addChangeListener(this);
 		
-		scrollNorth.add(scrollWidth, BorderLayout.CENTER);
+		scrollWest.add(scrollWidth, BorderLayout.CENTER);
 		
 		//create scroller for height
 		JLabel scrollHeightLabel = new JLabel();
 		scrollHeightLabel.setText("Height");
 		
-		scrollSouth.add(scrollHeightLabel,BorderLayout.NORTH);
+		scrollCenter.add(scrollHeightLabel,BorderLayout.NORTH);
 		
 		scrollHeight = new JSlider(JSlider.HORIZONTAL,10,500,50);
 		scrollHeight.setMajorTickSpacing(100);
@@ -104,10 +106,27 @@ public class ConwayView extends JPanel implements ActionListener, SpotListener, 
 		scrollHeight.setSnapToTicks(true);
 		scrollHeight.addChangeListener(this);
 		
-		scrollSouth.add(scrollHeight,BorderLayout.CENTER);
+		scrollCenter.add(scrollHeight,BorderLayout.CENTER);
 		
-		scrollPanel.add(scrollNorth,BorderLayout.NORTH);
-		scrollPanel.add(scrollSouth,BorderLayout.SOUTH);
+		//create scroller for time between iterations
+		JLabel scrollIterationLabel =  new JLabel();
+		scrollIterationLabel.setText("Time Between Iterations(Miliseconds)");
+		
+		scrollEast.add(scrollIterationLabel,BorderLayout.NORTH);
+		
+		scrollIteration = new JSlider(JSlider.HORIZONTAL,10,2000,2000);
+		scrollIteration.setMajorTickSpacing(500);
+		scrollIteration.setMinorTickSpacing(50);
+		scrollIteration.setPaintTicks(true);
+		scrollIteration.setPaintLabels(true);
+		scrollIteration.setSnapToTicks(true);
+		scrollIteration.addChangeListener(this);
+		
+		scrollEast.add(scrollIteration,BorderLayout.CENTER);
+		
+		scrollPanel.add(scrollWest,BorderLayout.WEST);
+		scrollPanel.add(scrollCenter,BorderLayout.CENTER);
+		scrollPanel.add(scrollEast,BorderLayout.EAST);
 		
 		sub_panel.add(scrollPanel,BorderLayout.SOUTH);
 		
@@ -205,6 +224,8 @@ public class ConwayView extends JPanel implements ActionListener, SpotListener, 
 				fireEvent(new BoardSizeEvent('w',slider.getValue()));
 			else if (slider == scrollHeight) 
 				fireEvent(new BoardSizeEvent('h',slider.getValue()));
+			else if (slider == scrollIteration)
+				fireEvent(new TimeEvent(slider.getValue()));
 		}
 	}
 	
@@ -225,6 +246,5 @@ public class ConwayView extends JPanel implements ActionListener, SpotListener, 
 		
 		repaint();
 		revalidate();
-		System.out.println("working");
 	}
 }

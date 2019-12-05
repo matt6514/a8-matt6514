@@ -30,7 +30,6 @@ public class ConwayController implements ConwayObserver, ConwayViewListener {
 			} else if (event.getString().equals("Advance")) {
 				model.lifeCycle(view.getBoard());
 			} else if (event.getString().equals("Increase Upper Survive")) {
-				System.out.println("fuck");
 				model.increaseUpperSurvive();
 			} else if (event.getString().equals("Increase Lower Survive")) {
 				model.increaseLowerSurvive();
@@ -48,9 +47,11 @@ public class ConwayController implements ConwayObserver, ConwayViewListener {
 				model.decreaseLowerBirth();
 			} else if (event.getString().equals("Play")) {
 				play = true;
+				view.appendToTape("Playing");
 				life();
 			} else if (event.getString().equals("Pause")) {
 				play = false;
+				view.appendToTape("Paused");
 			} else if (event.getString().equals("Torus")) {
 				model.setTorus();
 			} else if (event.getString().equals("Decrease Iteration time")) {
@@ -63,11 +64,18 @@ public class ConwayController implements ConwayObserver, ConwayViewListener {
 			BoardSizeEvent event = (BoardSizeEvent) e;
 			
 			if (event.getType() == 'w') {
-				view.setBoard(event.getValue(), view.getBoard().getSpotHeight());;
+				view.appendToTape("The new Width of the Board is " + event.getValue());
+				view.setBoard(event.getValue(), view.getBoard().getSpotHeight());
 
 			} else if (event.getType() == 'h') {
+				view.appendToTape("The new Height of the Board is " + event.getValue());
 				view.setBoard(view.getBoard().getSpotWidth(),event.getValue());
 			}
+		}
+		else if (e.isTimeEvent()) {
+			TimeEvent event = (TimeEvent) e;
+			wait_time = event.getValue();
+			view.appendToTape("The new time between iterations is " + wait_time + " milliseconds");
 		}
 		
 	}

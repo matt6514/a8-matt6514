@@ -9,6 +9,10 @@ abstract public class ConwayViewEvent {
 	public boolean isBoardSizeEvent() {
 		return false;
 	}
+	
+	public boolean isTimeEvent() {
+		return false;
+	}
 }
 
 class SimpleEvent extends ConwayViewEvent{
@@ -45,6 +49,22 @@ class BoardSizeEvent extends ConwayViewEvent{
 	}
 	
 	public boolean isBoardSizeEvent() {
+		return true;
+	}
+}
+
+class TimeEvent extends ConwayViewEvent{
+	private int newValue;
+	
+	public TimeEvent(int num) {
+		newValue = num;
+	}
+	
+	public int getValue() {
+		return newValue;
+	}
+	
+	public boolean isTimeEvent() {
 		return true;
 	}
 }
